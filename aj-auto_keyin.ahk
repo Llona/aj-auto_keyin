@@ -1,8 +1,9 @@
 ﻿/*
 Ver 0.1 - First version
+Ver 0.2 - Add clipwait for ensure clipboard has correct string
 */
 ;-------------------------------------------------------------
-SoftVersion := "Ver 0.1"
+SoftVersion := "Ver 0.2"
 
 ;MsgBox, The value is %IniVar%.
 
@@ -11,10 +12,22 @@ send_clip_board(str)
 	ori_text = %clipboard%
 	clipboard = %str%
 	sleep, 100
+	ClipWait
+	if ErrorLevel
+	{
+		MsgBox, error, 錯誤! 字串複製失敗!
+		return
+	}
 	send ^v
 	
 	clipboard = %ori_text%
 	sleep, 100
+	ClipWait
+	if ErrorLevel
+	{
+		MsgBox, 錯誤! 回復剪貼簿內容失敗!
+		return
+	}
 }
 
 #f1::
